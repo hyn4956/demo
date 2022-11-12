@@ -28,22 +28,26 @@ class App extends Component {
             _title = this.state.contents[0].title;
             _desc = this.state.contents[0].desc;
         }
+        console.log("render", this);
         return (
             <div className="App">
-                <header>
-                    <h1><a href="/" onClick={function (e){
-                        console.log(e);
-                        debugger;
-                        alert("hi");
-                    }}>{this.state.subject.title}</a></h1>
-                    {this.state.subject.suj}
-                </header>
-                {/*<Subject*/}
-                {/*    title={this.state.subject.title}*/}
-                {/*    sub={this.state.subject.suj}*/}
-                {/*>*/}
-                {/*</Subject>*/}
+                <Subject
+                    title={this.state.subject.title}
+                    sub={this.state.subject.suj}
+                    onChangePage={function(){
+                        this.setState({mode:'read'});
+                    }.bind(this)}
+                >
+                </Subject>
                 {/*<Subject title="React" sub="For UI"></Subject>*/}
+                {/*<header>*/}
+                {/*    <h1><a href="/" onClick={function (e){*/}
+                {/*        console.log(e);*/}
+                {/*        e.preventDefault();*/}
+                {/*        this.setState({mode: "read"});*/}
+                {/*    }.bind(this)}>{this.state.subject.title}</a></h1>*/}
+                {/*    {this.state.subject.suj}*/}
+                {/*</header>*/}
                 <TOC data={this.state.contents}></TOC>
                 <Content title={_title} desc={_desc}></Content>
             </div>
