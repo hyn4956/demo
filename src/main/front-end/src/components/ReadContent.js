@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-class Content extends Component {
+class ReadContent extends Component {
     render() {
         // 아래와 같이 props를 통해서 설정을 할 수 있으나,
         // 컴포넌트 안에서 외부로부터의 전달된 props 값을 바꾸는 것은 금지되어 있기 때문에 웹 상에서는 오류가 발생한다.
@@ -17,4 +17,4 @@ class Content extends Component {
     }
 }
 
-export default Content;
+export default ReadContent;
