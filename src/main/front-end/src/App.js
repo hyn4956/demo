@@ -4,7 +4,7 @@ import TOC from './components/TOC';
 import ReadContent from "./components/ReadContent";
 import CreateContent from "./components/CreateContent";
 import Subject from "./components/Subject";
-import Control from "./components/ReadContent";
+import Control from "./components/Control";
 
 class App extends Component {
     constructor(props) {
@@ -40,6 +40,10 @@ class App extends Component {
                     i = i+1;
                 }
                 _article = <ReadContent title={_title} desc={_desc}></ReadContent>
+        }else if(this.state.mode === 'create'){
+            _article = <CreateContent onSubmit={function(_title, _desc){
+             console.log(_title, _desc);
+            }.bind(this)}></CreateContent>
         }
         console.log("render", this);
         return (
@@ -63,7 +67,7 @@ class App extends Component {
                 {/*</header>*/}
                 <TOC
                     onChangePage={function(id){
-                        debugger;
+                        // debugger;
                         this.setState({
                             mode:'read',
                             selected_content_id:Number(id)
@@ -76,7 +80,7 @@ class App extends Component {
                     });
                 }.bind(this)}></Control>
                 {_article}
-                <ReadContent title={_title} desc={_desc}></ReadContent>
+                {/*<ReadContent title={_title} desc={_desc}></ReadContent>*/}
             </div>
         );
     }
