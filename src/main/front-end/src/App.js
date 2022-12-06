@@ -3,12 +3,14 @@ import './App.css';
 import TOC from './components/TOC';
 import ReadContent from "./components/ReadContent";
 import CreateContent from "./components/CreateContent";
+import UpdateContent from "./components/UpdateContent";
 import Subject from "./components/Subject";
 import Control from "./components/Control";
 
 class App extends Component {
     constructor(props) {
         super(props);
+        this.max_content_id = 3;
         this.state = {
             mode: 'read',
             selected_content_id: 2,
@@ -20,6 +22,8 @@ class App extends Component {
                 {id:3, title:'JavaScript', desc:'JavaScript is for interactive'}
             ]
         }
+    }
+    getContent() {
     }
     render() {
         console.log('App render');
@@ -42,6 +46,25 @@ class App extends Component {
                 _article = <ReadContent title={_title} desc={_desc}></ReadContent>
         }else if(this.state.mode === 'create'){
             _article = <CreateContent onSubmit={function(_title, _desc){
+                this.max_content_id = this.max_content_id+1;
+
+                // 방법1 : 원본을 변경하는 push
+                // this.state.contents.push(
+                //     {id:this.max_content_id, title:_title, desc:_desc}
+                // );
+
+                // 방법2 : concat을 이용하여 원본을 건들지 않고 변경
+                var _contents = this.state.contents.concat(
+                    {id:this.max_content_id, title:_title, desc:_desc}
+                );
+
+                this.setState({
+                    // 방법1 - contents 설정
+                    // contents:this.state.contents
+
+                    // 방법2 - contents 설정
+                    contents:_contents
+                });
              console.log(_title, _desc);
             }.bind(this)}></CreateContent>
         }
