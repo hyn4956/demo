@@ -23,27 +23,25 @@ class App extends Component {
             ]
         }
     }
-    getContent() {
+    getReadContent(){
+        var i = 0;
+        while(i < this.state.contents.length) {
+            var data = this.state.contents[i];
+            if(data.id === this.state.selected_content_id) {
+                return data;
+            }
+            i = i + 1;
+        }
     }
-    render() {
-        console.log('App render');
+    getContent() {
         var _title, _desc , _article= null;
-        if(this.state.mode === 'welcome'){
+        if(this.state.mode === 'welcome') {
             _title = this.state.welcome.title;
             _desc = this.state.welcome.desc;
             _article = <ReadContent title={_title} desc={_desc}></ReadContent>
         }else if(this.state.mode === 'read'){
-            var i = 0;
-                while(i < this.state.contents.length){
-                    var data = this.state.contents[i];
-                    if(data.id === this.state.selected_content_id){
-                        _title = data.title;
-                        _desc = data.desc;
-                        break;
-                    }
-                    i = i+1;
-                }
-                _article = <ReadContent title={_title} desc={_desc}></ReadContent>
+            var _content = this.getReadContent();
+            _article = <ReadContent title={_content.title} desc={_content.desc}></ReadContent>
         }else if(this.state.mode === 'create'){
             _article = <CreateContent onSubmit={function(_title, _desc){
                 this.max_content_id = this.max_content_id+1;
@@ -57,7 +55,6 @@ class App extends Component {
                 var _contents = this.state.contents.concat(
                     {id:this.max_content_id, title:_title, desc:_desc}
                 );
-
                 this.setState({
                     // 방법1 - contents 설정
                     // contents:this.state.contents
@@ -65,10 +62,29 @@ class App extends Component {
                     // 방법2 - contents 설정
                     contents:_contents
                 });
-             console.log(_title, _desc);
+                console.log(_title, _desc);
             }.bind(this)}></CreateContent>
+        } else if(this.state.mode === 'update'){
+            _article = <UpdateContent data={_content} onSubmit={function(_title, _desc){
+                this.max_content_id = this.max_content_id + 1;
+                //this.state.contents.push(
+                //  {id:this.max_content_id, title:_title, desc:_desc}
+                //);
+                var _contents = this.state.contents.concat(
+                    {id:this.max_content_id, title:_title, desc:_desc}
+                );
+                this.setState({
+                    contents:_contents
+                });
+                console.log(_title, _desc);
+            }.bind(this)}></UpdateContent>
         }
+        return _article;
         console.log("render", this);
+    }
+    render() {
+        console.log('App render');
+
         return (
             <div className="App">
                 <Subject
@@ -102,7 +118,8 @@ class App extends Component {
                         mode:_mode
                     });
                 }.bind(this)}></Control>
-                {_article}
+                {this.getContent()}
+                {/*{_article}*/}
                 {/*<ReadContent title={_title} desc={_desc}></ReadContent>*/}
             </div>
         );
